@@ -1,8 +1,9 @@
 import customtkinter as tk
 from tkinter import *
 
-class ScreenMain():
+class ScreenRecording():
     def createScreen():
+
         darkgrey = "#272727"
 
         tk.set_appearance_mode("dark")
@@ -23,10 +24,9 @@ class ScreenMain():
         topFrame = tk.CTkFrame(master=window, width=700, height=100, fg_color=darkgrey)
         topFrame.pack(side=TOP)
 
-        imgPlay = PhotoImage(file="assets/play.png")
         lowFrame = tk.CTkFrame(master=window, width=700, height=100, fg_color=darkgrey)
         lowFrame.pack(side=BOTTOM)
-        btnImgPlay = tk.CTkButton(master=window, image=imgPlay, text=None, fg_color=darkgrey, command=window.destroy, background_corner_colors=None, width=80, hover=False)
-        btnImgPlay.place(x=350-32, y=415)
+        infLabel = tk.CTkLabel(master=window, text="GRAVANDO!", text_color="red", fg_color=darkgrey, font=("Roboto", 28))
+        infLabel.place(x=275, y=430)
 
         window.mainloop()
