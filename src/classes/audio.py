@@ -15,3 +15,4 @@ class Audio:
         except:
             return 'Erro no microfone', False
         return texto, True
+    #def speek(content):
