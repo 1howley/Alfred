@@ -13,7 +13,9 @@ class ScreenResult:
             boolean = True
             window.destroy()
 
-        def test():
+        def copy():
+            print(inputUser.get())
+        def send():
             print(inputUser.get())
         
         darkgrey = "#272727"
@@ -35,7 +37,6 @@ class ScreenResult:
         scrollableFrame = tk.CTkScrollableFrame(master=window, fg_color=darkgrey, height=600, width=1000)
         scrollableFrame.pack(side=TOP)
 
-        # Create a text widget with vertical scrollbar
         aswerLabel = tk.CTkLabel(
             master=scrollableFrame,
             width=1000,
@@ -54,10 +55,12 @@ class ScreenResult:
         #working with low frame
         lowFrame = tk.CTkFrame(master=window, width=1100, height=100, fg_color=darkgrey)
         lowFrame.pack(side=BOTTOM)
-        btnImgCopy = tk.CTkButton(master=window, image=imgCopy, text=None, fg_color=darkgrey, command=test, background_corner_colors=None, width=80, hover=False)
-        btnImgCopy.place(x=0, y=600+14)
-        btnImgMic = tk.CTkButton(master=window, image=imgAudio, text=None, fg_color=darkgrey, command=turnTrue, background_corner_colors=None, width=80, hover=False)
-        btnImgMic.place(x=1000, y=600+14)
+        btnImgCopy = tk.CTkButton(master=window, image=imgCopy, text=None, fg_color=darkgrey, command=copy, background_corner_colors=None, width=80)
+        btnImgCopy.place(x=100-32, y=650-16)
+        btnImgMic = tk.CTkButton(master=window, image=imgAudio, text=None, fg_color=darkgrey, command=turnTrue, background_corner_colors=None, width=80)
+        btnImgMic.place(x=1000-32, y=650-16)
+        btnImgSend = tk.CTkButton(master=window, image=imgSend, text=None, fg_color=darkgrey, command=send, background_corner_colors=None, width=80)
+        btnImgSend.place(x=800+32, y=650-16)
 
         inputUser = tk.CTkEntry(master=window, placeholder_text="Sua mensagem", width=600, height=50, font=("Roboto", 14))
         inputUser.place(x=200, y=625)
@@ -65,3 +68,5 @@ class ScreenResult:
         window.mainloop()
 
         return boolean
+
+ScreenResult.createScreen("testando zé")
