@@ -12,6 +12,7 @@ class ScreenMain():
             window.update()
             global texto 
             texto = fun()
+            window.destroy()
 
         darkgrey = "#272727"
 
