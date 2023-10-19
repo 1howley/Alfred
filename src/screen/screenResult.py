@@ -68,5 +68,3 @@ class ScreenResult:
         window.mainloop()
 
         return boolean
-
-ScreenResult.createScreen("testando zé")

@@ -10,10 +10,9 @@ def funAudio():
     print(mic)
 
     if verificador == True:
-        print("foi")
+        print("audio capturado, aguarde a resposta!")
         return mic
     else:
-        print(mic)
         return None
 
 while verifier:

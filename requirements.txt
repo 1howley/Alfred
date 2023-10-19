@@ -3,3 +3,4 @@ pyaudio
 customtkinter
 openai
 dotenv
+playwright
