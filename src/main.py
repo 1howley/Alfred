@@ -1,5 +1,6 @@
 from classes.audio import Audio
 from classes.chatBot import ChatBot
+from classes.browser import Browser
 from screen.screenMain import ScreenMain
 from screen.screenResult import ScreenResult
 
@@ -18,6 +19,17 @@ def funAudio():
 while verifier:
     texto = ScreenMain.createScreen(fun=funAudio)
     print(texto)
-    response = ChatBot.message(texto)
-    verifier = ScreenResult.createScreen(response)
+
+    splited = texto.split(' ')
+    if splited[0] == 'tocar' or splited[0] == 'Tocar':
+        x = 1
+        query = ''        
+        for x in range(len(splited)):
+            query += ' ' + str(splited[x])
+            
+        print(query)
+        Browser.process_youtube_video(query=query)
+    else:
+        response = ChatBot.message(texto)
+        verifier = ScreenResult.createScreen(response)
 
