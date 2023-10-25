@@ -1,6 +1,8 @@
 SpeechRecognition
 pyaudio
 customtkinter
+packaging
 openai
-dotenv
+python-dotenv
 playwright
+Pillow
