@@ -5,6 +5,8 @@ class ScreenMain():
     def createScreen(fun):
 
         global texto
+        global verifica
+        verifica = False
 
         def action():
             btnImgPlay.configure(image=None, text="GRAVANDO!", font=("Roboto", 30), background_corner_colors=None)
@@ -12,6 +14,8 @@ class ScreenMain():
             window.update()
             global texto 
             texto = fun()
+            global verifica
+            verifica = True
             window.destroy()
 
         darkgrey = "#272727"
@@ -40,4 +44,4 @@ class ScreenMain():
 
         window.mainloop()
 
-        return texto
+        return texto, verifica

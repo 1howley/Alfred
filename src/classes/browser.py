@@ -20,23 +20,19 @@ class Browser:
             context = browser.new_context()
             page = context.new_page()
             
-            # Realiza a pesquisa no YouTube
             page.goto(f'https://www.youtube.com/results?search_query={query}')
             
-            # Aguarda até que o primeiro vídeo da pesquisa esteja visível e, em seguida, clica nele
             try:
                 page.wait_for_selector('ytd-video-renderer', state='visible', timeout=6000).click()
             except:
                 print('Não foi possível acessar o primeiro vídeo da pesquisa')
 
-            # Aguarda até que o botão "Pular anúncio" esteja visível e, em seguida, clica nele
             try:
                 page.wait_for_selector('text=Pular Anúncios', state='visible', timeout=8000).click()
             except:
                 print('Não foi possível pular o anúncio')
 
-            # Aguarda até que o elemento da duração do vídeo esteja disponível e pega o valor
-            time.sleep(5)
+            time.sleep(8)
 
             try:
                 duration = page.wait_for_selector('span.ytp-time-duration', state='visible', timeout=8000).text_content()
@@ -45,10 +41,17 @@ class Browser:
             except:
                 print('Não foi possível obter a duração do vídeo')
             
+            
             sec = convert_duration_to_seconds(tempo)
             print(sec)
+
+            timeout = time.time() + sec
+            while True:
+                if page.is_closed() or time.time() > timeout:
+                    break
+                time.sleep(1)
             
-            time.sleep(sec)
-
             browser.close()
+            
 
+            

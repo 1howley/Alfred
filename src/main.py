@@ -8,7 +8,7 @@ verifier = True
 
 def funAudio():
     mic, verificador = Audio.recognizeAudio()
-    print(mic)
+    print('Audio capturado: ' + mic)
 
     if verificador == True:
         print("audio capturado, aguarde a resposta!")
@@ -17,19 +17,19 @@ def funAudio():
         return None
 
 while verifier:
-    texto = ScreenMain.createScreen(fun=funAudio)
-    print(texto)
+    texto, verifica = ScreenMain.createScreen(fun=funAudio)
 
-    splited = texto.split(' ')
-    if splited[0] == 'tocar' or splited[0] == 'Tocar':
-        x = 1
-        query = ''        
-        for x in range(len(splited)):
-            query += ' ' + str(splited[x])
-            
-        print(query)
-        Browser.process_youtube_video(query=query)
+    if verifica == True:
+        splited = texto.split(' ')
+        if splited[0] == 'tocar' or splited[0] == 'Tocar':
+            query = ''        
+            for x in range(1, len(splited)):
+                query += str(splited[x]) + ' '
+                
+            print(query)
+            Browser.process_youtube_video(query=query)
+        else:
+            response = ChatBot.message(texto)
+            verifier = ScreenResult.createScreen(response)
     else:
-        response = ChatBot.message(texto)
-        verifier = ScreenResult.createScreen(response)
-
+        verifier = False
