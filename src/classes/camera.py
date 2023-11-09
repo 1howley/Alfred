@@ -1,40 +1,51 @@
 import cv2
 import mediapipe as mp
+import numpy as np
 
 # Carregar a imagem de referência para comparação
-reference_image = cv2.imread('caminho/para/sua/imagem_de_referencia.jpg')
+reference_image = cv2.imread(r"C:\Users\HP\Downloads\test.jpeg")
 
 # Inicializar o módulo MediaPipe FaceMesh
-mp_face_detection = mp.solutions.face_detection
+mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
-face_detection = mp_face_detection.FaceDetection()
+
+# Inicializar o modelo FaceMesh
+face_mesh = mp_face_mesh.FaceMesh()
 
 # Inicializar a captura de vídeo da webcam (0 representa a câmera padrão)
 video_capture = cv2.VideoCapture(0)
+
+# Função para calcular a distância Euclidiana entre dois pontos
+def euclidean_distance(point1, point2):
+    return np.linalg.norm(np.array(point1) - np.array(point2))
+
+# Definir um limite para considerar uma correspondência
+threshold = 50  # Ajuste o valor conforme necessário
 
 while True:
     # Capturar frame a frame
     ret, frame = video_capture.read()
 
-    # Detectar rostos na imagem atual
-    result = face_detection.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    # Converter o frame para RGB para o MediaPipe
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    if result.detections:
-        for detection in result.detections:
-            bboxC = detection.location_data.relative_bounding_box
-            ih, iw, _ = frame.shape
-            x, y, w, h = int(bboxC.xmin * iw), int(bboxC.ymin * ih), \
-                         int(bboxC.width * iw), int(bboxC.height * ih)
+    # Detectar pontos-chave faciais na imagem atual
+    result = face_mesh.process(frame_rgb)
 
-            # Comparar com a imagem de referência (simplificado para detecção)
-            reference_height, reference_width, _ = reference_image.shape
-            if h == reference_height and w == reference_width:
-                print("Rosto detectado. Esta pessoa está no banco de dados.")
-            else:
-                print("Rosto detectado. Esta pessoa não está no banco de dados.")
+    if result.multi_face_landmarks:
+        # Extrair os pontos-chave faciais do primeiro rosto detectado
+        landmarks = result.multi_face_landmarks[0]
 
-            # Desenhar o retângulo ao redor do rosto detectado
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # Calcular a distância Euclidiana entre os pontos-chave faciais da imagem atual e da imagem de referência
+        distance = euclidean_distance((landmarks[0].landmark[0].x, landmarks[0].landmark[0].y), (reference_image[0].landmark[0].x, reference_image[0].landmark[0].y))
+
+        # Verificar se a distância está abaixo do limite
+        if distance < threshold:
+            # A imagem atual corresponde à imagem de referência
+            # Implemente a lógica aqui para tratar a correspondência
+
+            # Desenhar os pontos-chave faciais no frame
+            mp_drawing.draw_landmarks(frame, landmarks)
 
     # Exibir o frame resultante
     cv2.imshow('Video', frame)

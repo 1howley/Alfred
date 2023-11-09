@@ -5,4 +5,5 @@ packaging
 openai
 python-dotenv
 playwright
-Pillow
+opencv-python
+mediapipe
