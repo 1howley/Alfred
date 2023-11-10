@@ -16,13 +16,20 @@ def funAudio():
         return mic
     else:
         return None
+    
+# Exemplo de uso
+def display_result(result):
+    if result:
+        print('Rosto reconhecido!')
+    else:
+        print('Rosto não reconhecido!')
 
 while verifier:
     texto, verifica = ScreenMain.createScreen(fun=funAudio)
 
     if verifica == True:
         if texto == None:
-            Camera.openCamera()
+            Camera.recognize_face(result_callback=display_result)
         else:
             splited = texto.split(' ')
             if splited[0] == 'tocar' or splited[0] == 'Tocar':
