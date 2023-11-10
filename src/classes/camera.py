@@ -1,58 +1,58 @@
+import threading
 import cv2
 import mediapipe as mp
-import numpy as np
+from deepface import DeepFace
 
-# Carregar a imagem de referência para comparação
-reference_image = cv2.imread(r"C:\Users\HP\Downloads\test.jpeg")
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-# Inicializar o módulo MediaPipe FaceMesh
-mp_face_mesh = mp.solutions.face_mesh
-mp_drawing = mp.solutions.drawing_utils
+reconhecimento_rosto = mp.solutions.face_detection
+desenho = mp.solutions.drawing_utils
+reconhecedor_rosto = reconhecimento_rosto.FaceDetection()
 
-# Inicializar o modelo FaceMesh
-face_mesh = mp_face_mesh.FaceMesh()
+counter = 0
 
-# Inicializar a captura de vídeo da webcam (0 representa a câmera padrão)
-video_capture = cv2.VideoCapture(0)
+face_match = False
 
-# Função para calcular a distância Euclidiana entre dois pontos
-def euclidean_distance(point1, point2):
-    return np.linalg.norm(np.array(point1) - np.array(point2))
+reference_img = cv2.imread(r"C:\Users\HP\Downloads\biel.jpeg")
 
-# Definir um limite para considerar uma correspondência
-threshold = 50  # Ajuste o valor conforme necessário
+def check_face(frame):
+    global face_match
+    try:
+        if DeepFace.verify(frame, reference_img.copy())['verified']:
+            face_match = True
+        else:
+            face_match = False
+    except ValueError:
+        face_match = False
 
 while True:
-    # Capturar frame a frame
-    ret, frame = video_capture.read()
-
-    # Converter o frame para RGB para o MediaPipe
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    # Detectar pontos-chave faciais na imagem atual
-    result = face_mesh.process(frame_rgb)
-
-    if result.multi_face_landmarks:
-        # Extrair os pontos-chave faciais do primeiro rosto detectado
-        landmarks = result.multi_face_landmarks[0]
-
-        # Calcular a distância Euclidiana entre os pontos-chave faciais da imagem atual e da imagem de referência
-        distance = euclidean_distance((landmarks[0].landmark[0].x, landmarks[0].landmark[0].y), (reference_image[0].landmark[0].x, reference_image[0].landmark[0].y))
-
-        # Verificar se a distância está abaixo do limite
-        if distance < threshold:
-            # A imagem atual corresponde à imagem de referência
-            # Implemente a lógica aqui para tratar a correspondência
-
-            # Desenhar os pontos-chave faciais no frame
-            mp_drawing.draw_landmarks(frame, landmarks)
-
-    # Exibir o frame resultante
-    cv2.imshow('Video', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    ret, frame = cap.read()
+    
+    lista_rostos = reconhecedor_rosto.process(frame)
+    if lista_rostos.detections:
+        for rosto in lista_rostos.detections:
+            desenho.draw_detection(frame, rosto)
+    
+    if ret:
+        if counter % 30 == 0:
+            try:
+                threading.Thread(target=check_face, args=(frame.copy(),)).start()
+            except ValueError:
+                pass
+        counter += 1
+        
+        if face_match:            
+            cv2.putText(frame, 'Match!', (20,450), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255, 0), 3)
+        else:
+            cv2.putText(frame, 'No Match!', (20,450), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0, 255), 3) 
+            
+        cv2.imshow('Video', frame)
+        
+    key = cv2.waitKey(1)
+    if key == ord('q'):
         break
-
-# Liberar o vídeo e fechar as janelas
-video_capture.release()
+   
+cap.release()    
 cv2.destroyAllWindows()

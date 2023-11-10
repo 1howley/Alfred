@@ -2,6 +2,7 @@
 
 //helping on download
 !(pip install playwright e playwright install)
+!(pip install opencv-python deepface)
 
 // VOICE COMMANDS
 first word command:

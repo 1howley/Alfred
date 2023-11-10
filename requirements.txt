@@ -6,4 +6,5 @@ openai
 python-dotenv
 playwright
 opencv-python
+deepface
 mediapipe
