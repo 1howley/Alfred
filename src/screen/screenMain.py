@@ -8,7 +8,15 @@ class ScreenMain():
         global verifica
         verifica = False
 
-        def action():
+        def actionFace():
+            window.update()
+            global texto 
+            texto = None
+            global verifica
+            verifica = True
+            window.destroy()
+        
+        def actionPlay():
             btnImgPlay.configure(image=None, text="GRAVANDO!", font=("Roboto", 30), background_corner_colors=None)
             btnImgPlay.place(x=250, y=420)
             window.update()
@@ -33,13 +41,16 @@ class ScreenMain():
         labelImgSound = tk.CTkLabel(master=window, image=imgSound, text=None)
         labelImgSound.place(x=350-128, y=250-128)
 
+        imgFace = PhotoImage(file="assets/face.png")
         topFrame = tk.CTkFrame(master=window, width=700, height=100, fg_color=darkgrey)
         topFrame.pack(side=TOP)
+        btnImgFace = tk.CTkButton(master=window, image=imgFace, text=None, fg_color=darkgrey, command=actionFace, background_corner_colors=None, width=80, hover=False)
+        btnImgFace.place(x=350-32, y=16)
 
         imgPlay = PhotoImage(file="assets/play.png")
         lowFrame = tk.CTkFrame(master=window, width=700, height=100, fg_color=darkgrey)
         lowFrame.pack(side=BOTTOM)
-        btnImgPlay = tk.CTkButton(master=window, image=imgPlay, text=None, fg_color=darkgrey, command=action, background_corner_colors=None, width=80, hover=False)
+        btnImgPlay = tk.CTkButton(master=window, image=imgPlay, text=None, fg_color=darkgrey, command=actionPlay, background_corner_colors=None, width=80, hover=False)
         btnImgPlay.place(x=350-32, y=415)
 
         window.mainloop()
