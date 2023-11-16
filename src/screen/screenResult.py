@@ -1,4 +1,5 @@
 import customtkinter as tk
+import pyperclip
 from tkinter import *
 
 class ScreenResult:
@@ -6,17 +7,22 @@ class ScreenResult:
     def createScreen(content):
         
         global boolean
-        boolean = False
+        boolean = True
+        global text
 
         def turnTrue():
             global boolean
             boolean = True
             window.destroy()
 
-        def copy():
-            print(inputUser.get())
+        def copyFun():
+            pyperclip.copy(content)
         def send():
-            print(inputUser.get())
+            global boolean
+            boolean = False
+            global text
+            text = inputUser.get()
+            window.destroy()
         
         darkgrey = "#272727"
 
@@ -57,7 +63,7 @@ class ScreenResult:
         #working with low frame
         lowFrame = tk.CTkFrame(master=window, width=1100, height=100, fg_color=darkgrey)
         lowFrame.pack(side=BOTTOM)
-        btnImgCopy = tk.CTkButton(master=window, image=imgCopy, text=None, fg_color=darkgrey, command=copy, background_corner_colors=None, width=80)
+        btnImgCopy = tk.CTkButton(master=window, image=imgCopy, text=None, fg_color=darkgrey, command=copyFun, background_corner_colors=None, width=80)
         btnImgCopy.place(x=100-32, y=650-16)
         btnImgMic = tk.CTkButton(master=window, image=imgAudio, text=None, fg_color=darkgrey, command=turnTrue, background_corner_colors=None, width=80)
         btnImgMic.place(x=1000-32, y=650-16)
@@ -69,4 +75,4 @@ class ScreenResult:
 
         window.mainloop()
 
-        return boolean
+        return boolean, text

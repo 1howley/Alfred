@@ -41,6 +41,9 @@ while verifier:
                 Browser.process_youtube_video(query=query)
             else:
                 response = ChatBot.message(texto)
-                verifier = ScreenResult.createScreen(response)
+                verifier, text = ScreenResult.createScreen(response)
+                while verifier == False:
+                    text = ChatBot.message(text)
+                    verifier, text = ScreenResult.createScreen(text)
     else:
         verifier = False
