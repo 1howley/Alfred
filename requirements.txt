@@ -8,3 +8,4 @@ playwright
 opencv-python
 deepface
 mediapipe
+pyperclip
