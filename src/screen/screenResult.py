@@ -24,7 +24,9 @@ class ScreenResult:
         tk.set_default_color_theme("green")
 
         window = tk.CTk()
-        window.geometry("1100x700")
+        posix = window.winfo_screenwidth()/2 - 1100/2
+        posiy = window.winfo_screenheight()/2 - 700/2
+        window.geometry("%dx%d+%d+%d" % (1100, 700, posix, posiy))
         window.title("Alfred's Answer")
         window.iconbitmap("assets/alfredo.ico")
         window.resizable(False, False)

@@ -3,7 +3,7 @@ import mediapipe as mp
 from deepface import DeepFace
 
 class Camera:
-    @staticmethod
+    
     def recognize_face(result_callback):
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
