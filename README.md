@@ -8,19 +8,12 @@ This project had the objective of show a proposal for a virtual assistent withou
 - If you have any problems with the previous instruction, try to install each library on its own.
 - After that, type in your terminal the following command(__playwright install__)  
 - create a file in __classes__ folder with the name of __.env__, in this file type __key-openai = "type here your openai key"__ and replace it with your key provided in the openai site.
-!(pip install playwright e playwright install)
-!(pip install opencv-python deepface)
+- Ready to work!
 
-// VOICE COMMANDS
-first word command:
-speak
-'command, arg'
-
-- Tocar -> To start a music or video from Youtube
+# Voice command
+After click on the mic icon, if you want to play a music or video from youtube speak:
+'__Tocar__, speak your music or video'
 ex: 'Tocar, Chico Luisa Sonsa'
 
-
-
-# TO DO
-The way i call methods in main.py
-The ad that i cannot skip 
+# Contact
+If you have an idea to update or improve this code, make a pull request or contact me at __bielgabrielfs61@gmail.com__
